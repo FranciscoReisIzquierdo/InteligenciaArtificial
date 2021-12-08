@@ -28,7 +28,7 @@ estadoFinal(jarros(4, _)).
 
 %---------------------------------
 % Depth First Search 
-% Nota: Não verifico a profundidade!, Caso se pretenda controlar a profundidade, bastava colocar mais uma variável N, que tivesse a profundidade máxima "premitida"
+% Nota: Não verifico a profundidade!, Caso se pretenda controlar a profundidade, bastava colocar mais uma variável N, que tivesse a profundidade máxima "permitida"
 depthFirst(Ei, Ef, Path):- depthFirstAuxiliar(Ei, Ef, [], Path).
 
 depthFirstAuxiliar(Ei, Ei, Visited, Path):- reverse([Ei|Visited], Path).
@@ -69,18 +69,18 @@ transicao(jarros(A, B), transferir(2,1), jarros(Af, Bf)):-
     	Bf is max(B - 5 + A, 0),
     	Bf < B,
     	Af is A + B - Bf.
-	
+
+
 %---------------------------------
-% Breadth First Search
-breadthFirst(Ei, Ef, Path):- breadthFirstAuxiliar(Ei, Ef, [], Path).
+% Breadth First Search	
 
-breadthFirstAuxiliar(Ei, Ei, Visited, Visited).
+breadthFirst(Orig, Dest, Cam):- breadthFirstAux(Dest,[[Orig]],Cam).
 
+breadthFirstAux(Dest,[[Dest|T]|_],Cam):- reverse([Dest|T],Cam). 
 
-breadthFirstAuxiliar(Ei, Ef, Visited, Path):-
-	not(member(Ei, Visited)),
-	transicao(Ei, T, E),
-	append(Visited, [Ei], Newvisited),
-	breadthFirstAuxiliar(E, Ef, Newvisited, Path).	
+breadthFirstAux(Dest,[LA|Outros],Cam):- LA=[Act|_], 
+	findall([X|LA], (transicao(Act, T, X),\+member(X,LA)), Novos),
+	append(Outros,Novos,Todos),
+ 	breadthFirstAux(Dest,Todos,Cam).
 
 %---------------------------------
