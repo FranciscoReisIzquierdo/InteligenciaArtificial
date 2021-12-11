@@ -87,7 +87,7 @@ excecao(sutura, mariana, josefa, sexta).
 servico('@NP9', zulmira).
 excecao(servico(S, N)):- ato('@NP9', N).
 nulo('@NP9').
-+servico(S, N)::(findall(S, servico(S, N), L), not(nulo(S)), length(L, N), N== 0).
++servico(S, N)::(findall(S, (servico(S, N), not(nulo(S))), L), length(L, N), N== 0).
 
 excecao(ato(penso, ana, jacinta, Data)):- member(Data, [segunda, terca, quarta, quinta, sexta, sabado, domingo]).
 
